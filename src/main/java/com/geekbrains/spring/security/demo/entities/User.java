@@ -26,14 +26,16 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
-    @JoinColumn(name = "status")
-    private Status status;
-
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    @ManyToOne
+    @JoinTable(name = "users_statuses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "status_id"))
+    private Status status;
 
 }

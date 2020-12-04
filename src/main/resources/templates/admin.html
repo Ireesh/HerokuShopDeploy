@@ -34,6 +34,25 @@
                             </form>
                         </tbody>
                     </table>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${users.isFirst() ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/?p='+ ${users.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
+                            </li>
+
+                            <li class="page-item" th:classappend="${users.getNumber() + 1 == i ? 'active' : ''}"
+                                th:each="i : ${#numbers.sequence((users.getNumber()+3 >= users.getTotalPages() ? users.getTotalPages()-2 : users.getNumber()+1),
+                                 (users.getNumber() + 3 < users.getTotalPages() ? users.getNumber() + 3 : users.getTotalPages()))}">
+                                <a class="page-link" th:text="${i}" th:href="@{'/admin/?p=' + ${i}}"></a>
+                            </li>
+
+                            <li class="page-item" th:classappend="${users.getNumber()+3 >= users.getTotalPages() ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/?p='+ ${users.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 <div th:case="'blocked'">
                     <p>Admin was blocked!</p>

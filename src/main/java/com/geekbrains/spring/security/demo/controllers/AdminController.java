@@ -5,6 +5,7 @@ import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.services.StatusService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AdminController {
@@ -24,9 +26,11 @@ public class AdminController {
     StatusService statusService;
 
     @GetMapping("/admin")
-    public String adminPage(Model model, Principal principal) {
+    public String adminPage(Model model, Principal principal, @RequestParam Map<String, String> requestParams) {
+        Integer pageNumber = Integer.parseInt(requestParams.getOrDefault("p", "1"));
+        Page<User> users = userService.findAll(pageNumber);
         User user = userService.findUserByEmail(principal.getName());
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", users);
         model.addAttribute("user", user );
         return "admin";
     }
