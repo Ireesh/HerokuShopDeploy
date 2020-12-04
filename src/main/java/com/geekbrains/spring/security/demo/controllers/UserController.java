@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping("/authenticated/profile")
     public String showUserData(Model model, Principal principal) {
-        User user = userService.getUser(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         for (Role r : user.getRoles()) {
             if (r.getName().equals("admin")) {
                 return "redirect:/admin";

@@ -12,17 +12,21 @@
 </head>
 
 <body>
-<h1>Изменить товар</h1>
-<form th:action="@{/admin/edit}" th:object="${user}" method="POST">
-    <p th:text="${user.username}"/>
-    <select class="custom-select">
-        <option selected th:if="${user.status.getName() == 'active'}">1</option>
-        <option selected th:unless="${user.status.getName() == 'active'}">2</option>
-        <option value="1" th:if="${user.status.getName() == 'active'}">2</option>
-        <option value="1" th:unless="${user.status.getName() == 'active'}">1</option>
-    </select>
-    <input type="submit" value="Save" />
-</form>
-<br>
+    <form th:action="@{/admin/edit}" method="post">
+        <div class="taskList" th:object="${statuses}">
+            <select class="form-control" id="status" name="idStatus">
+                <option value="">Select user status</option>
+                <option th:each="status : ${statuses}"
+                        th:value="${status.id}"
+                        th:text="${status.getName()}">
+                </option>
+            </select>
+            <input type="hidden"/>
+        </div>
+        <div th:object="${id}">
+            <input type="hidden" th:value="${id}" th:name="idUser">
+        </div>
+        <button type="submit">save</button>
+    </form>
 </body>
 </html>
