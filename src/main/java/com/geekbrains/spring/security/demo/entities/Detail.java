@@ -20,10 +20,11 @@ public class Detail {
     @Column (name = "price")
     private BigDecimal price;
 
-    @OneToOne(mappedBy = "details")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "details_products",
             joinColumns = @JoinColumn(name = "detail_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))

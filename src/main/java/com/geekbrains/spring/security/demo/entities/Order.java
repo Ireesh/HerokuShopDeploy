@@ -21,8 +21,8 @@ public class Order {
     @Column(name = "sum")
     private BigDecimal totalPrice;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "details", referencedColumnName = "id")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL,
+                fetch = FetchType.LAZY, optional = false)
     private Detail detail;
 
     @CreationTimestamp
