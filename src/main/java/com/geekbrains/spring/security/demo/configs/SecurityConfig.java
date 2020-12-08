@@ -20,14 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authenticated/**").hasAnyAuthority("user", "admin")
+                .antMatchers("/auth/**").hasAnyAuthority("user", "admin")
                 .antMatchers("/admin/**").hasAnyAuthority("admin")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/authenticated")
-                .successForwardUrl("/authenticated")
+                .loginProcessingUrl("/auth")
+                .successForwardUrl("/auth")
                 .and()
                 .csrf().disable()
                 .logout().logoutSuccessUrl("/")

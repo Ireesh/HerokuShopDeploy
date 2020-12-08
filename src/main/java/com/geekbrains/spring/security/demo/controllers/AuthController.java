@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
 
-    @PostMapping("/authenticated")
+    @PostMapping("/auth")
     public String authenticatedPage() {
-        return "redirect:/authenticated/profile";
+        return "redirect:/auth/profile";
     }
 
 }

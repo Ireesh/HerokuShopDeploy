@@ -11,6 +11,9 @@
 </head>
 
 <body>
+<div class="container mb-5">
+    <div th:replace="~{navigation :: navigation(profile)}" />
+</div>
 <div th:action="@{/authenticated/profile}" th:object="${user}">
     <div th:switch="${user.status.getName()}">
         <div th:case="'active'">

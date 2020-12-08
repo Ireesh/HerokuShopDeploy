@@ -9,8 +9,6 @@ import java.security.Principal;
 
 @Controller
 public class MainController {
-    @Autowired
-    UserService userService;
 
     @GetMapping("/")
     public String homePage() {

@@ -1,20 +1,16 @@
 package com.geekbrains.spring.security.demo.controllers;
 
-import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.services.StatusService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -42,7 +38,7 @@ public class AdminController {
         return "admin_edit";
     }
 
-    @RequestMapping(value="admin/edit", method = RequestMethod.POST)
+    @RequestMapping(value="/admin/edit", method = RequestMethod.POST)
     public String editUser (@Validated String idStatus, Long idUser) {
         System.out.println(idStatus);
         System.out.println(idUser);
