@@ -2,7 +2,6 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.User;
-import com.geekbrains.spring.security.demo.services.RoleService;
 import com.geekbrains.spring.security.demo.services.StatusService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,19 +28,20 @@ public class UserController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     StatusService statusService;
-    @Autowired
-    RoleService roleService;
 
     @GetMapping("/auth/profile")
     public String showUserData(Model model, Principal principal) {
         User user = userService.findUserByEmail(principal.getName());
-        for (Role r : user.getRoles()) {
-            if (r.getName().equals("admin")) {
-                return "redirect:/admin";
-            }
+        if (user.getRole().equals(Role.ADMIN)) {
+            return "redirect:/auth/admin";
         }
         model.addAttribute("user", user);
         return "profile";
+    }
+
+    @PostMapping("/auth/profile")
+    public String authenticatedPage() {
+        return "redirect:/auth/profile";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -58,7 +59,7 @@ public class UserController {
                 user.setEmail(email);
                 user.setPhone(phone.toString());
                 user.setStatus(statusService.findStatusById(1L));
-                user.setRoles(Arrays.asList(roleService.findRoleById(2L)));
+                user.setRole(Role.USER);
                 userService.createNewUser(user);
                 return "redirect:/login";
             } else {
@@ -70,4 +71,5 @@ public class UserController {
             return "redirect:/login";
         }
     }
+
 }

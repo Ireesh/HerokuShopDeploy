@@ -4,6 +4,7 @@ import com.geekbrains.spring.security.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 
@@ -20,4 +21,8 @@ public class MainController {
         return "login_page";
     }
 
+    @GetMapping("/auth")
+    public String authenticatedPage() {
+        return "redirect:/auth/profile";
+    }
 }

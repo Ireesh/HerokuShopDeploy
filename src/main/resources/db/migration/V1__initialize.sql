@@ -20,27 +20,10 @@ create table users (
                        id              bigint auto_increment,
                        username        varchar(30) not null,
                        password        varchar(80) not null,
-                       email           varchar(50) unique,
-                       phone           varchar(30) unique,
+                       email           varchar(50) unique not null,
+                       phone           varchar(30) unique not null,
+                       role            varchar(30) not null,
                        primary key (id)
-);
-
--- ROLES TABLE
-drop table if exists roles cascade;
-create table roles (
-                       id         bigint auto_increment,
-                       `name`     varchar(50) not null,
-                       primary key (id)
-);
-
--- USERS_ROLES TABLE
-drop table if exists users_roles cascade;
-create table users_roles (
-                             user_id             bigint not null,
-                             role_id             bigint not null,
-                             primary key (user_id, role_id),
-                             foreign key (user_id) references users (id),
-                             foreign key (role_id) references roles (id)
 );
 
 -- USERS_STATUSES TABLE
@@ -135,11 +118,6 @@ create table details_products (
                     foreign key (product_id) references products (id)
 );
 
--- INIT ROLES
-insert into roles (`name`) values
-('admin'),
-('user');
-
 -- INIT STATUSES
 insert into statuses (`name`) values
 ('active'),
@@ -155,36 +133,20 @@ insert into conditions (`name`) values
 ('canceled');
 
 -- INIT USERS
-insert into users (username, password, email, phone) values
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@gmail.com', '999-333-34-34'),
-('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user2@gmail.com', '999-333-34-35'),
-('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user3@gmail.com', '999-333-34-36'),
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user4@gmail.com', '999-333-34-37'),
-('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user5@gmail.com', '999-333-34-38'),
-('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user6@gmail.com', '999-333-34-39'),
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user7@gmail.com', '999-333-34-40'),
-('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user8@gmail.com', '999-333-34-41'),
-('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user9@gmail.com', '999-333-34-42'),
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user10@gmail.com', '999-333-34-43'),
-('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user11@gmail.com', '999-333-34-44'),
-('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user12@gmail.com', '999-333-34-45'),
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user13@gmail.com', '999-333-34-46');
-
--- INIT USERS_ROLES
-insert into users_roles values
-(1, 1),
-(2, 2),
-(3, 2),
-(4, 1),
-(5, 2),
-(6, 2),
-(7, 1),
-(8, 2),
-(9, 2),
-(10, 1),
-(11, 2),
-(12, 2),
-(13, 2);
+insert into users (username, password, email, phone, role) values
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@gmail.com', '999-333-34-34', 'ADMIN'),
+('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user2@gmail.com', '999-333-34-35', 'USER'),
+('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user3@gmail.com', '999-333-34-36', 'MANAGER'),
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user4@gmail.com', '999-333-34-37', 'USER'),
+('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user5@gmail.com', '999-333-34-38', 'USER'),
+('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user6@gmail.com', '999-333-34-39', 'USER'),
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user7@gmail.com', '999-333-34-40', 'USER'),
+('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user8@gmail.com', '999-333-34-41', 'USER'),
+('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user9@gmail.com', '999-333-34-42', 'USER'),
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user10@gmail.com', '999-333-34-43', 'USER'),
+('user2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user11@gmail.com', '999-333-34-44', 'USER'),
+('user3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user12@gmail.com', '999-333-34-45', 'USER'),
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user13@gmail.com', '999-333-34-46', 'USER');
 
 -- INIT USERS_STATUSES
 insert into users_statuses values

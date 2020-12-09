@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.configs;
 
+import com.geekbrains.spring.security.demo.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,14 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/auth/**").hasAnyAuthority("user", "admin")
-                .antMatchers("/admin/**").hasAnyAuthority("admin")
+                .antMatchers("/auth/profile/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                .antMatchers("/auth/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/auth")
-                .successForwardUrl("/auth")
+                .loginProcessingUrl("/auth/profile")
                 .and()
                 .csrf().disable()
                 .logout().logoutSuccessUrl("/")

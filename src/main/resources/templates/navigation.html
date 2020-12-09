@@ -33,7 +33,7 @@
                 </li>
             </ul>
             <div sec:authorize="isAnonymous()" class="nav-item">
-            <form class="align-middle" th:action="@{/auth}" method="POST">
+            <form class="align-middle" th:action="@{/auth/profile}" method="POST">
                 <div class="input-group-prepend">
                     <input id="navLoginField" class="form-control" type="text" th:placeholder="email" name="username"
                            aria-describedby="inputGroup-sizing-sm"style="margin-left: 10px;">

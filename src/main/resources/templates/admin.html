@@ -14,7 +14,7 @@
         <div th:replace="~{navigation}" />
     </div>
 
-        <div th:action="@{/admin}" th:object="${user}">
+        <div th:action="@{/auth/admin}" th:object="${user}">
             <div th:switch="${user.status.getName()}">
                 <div th:case="'active'">
                     <table class="table table-striped">
@@ -32,7 +32,7 @@
                                     <td th:text="${u.email}"></td>
                                     <td th:text="${u.phone}"></td>
                                     <td>
-                                        <a th:href="@{'/admin/edit/' + ${u.id}}">Edit</a>
+                                        <a th:href="@{'/auth/admin/edit/' + ${u.id}}">Edit</a>
                                     </td>
                                 </tr>
                             </form>
@@ -42,18 +42,18 @@
                         <ul class="pagination">
                             <li class="page-item" th:classappend="${users.isFirst() ? 'disabled' : ''}">
                                 <a class="page-link"
-                                   th:href="@{'/admin/?p='+ ${users.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
+                                   th:href="@{'/auth/admin/?p='+ ${users.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
                             </li>
 
                             <li class="page-item" th:classappend="${users.getNumber() + 1 == i ? 'active' : ''}"
                                 th:each="i : ${#numbers.sequence((users.getNumber()+3 >= users.getTotalPages() ? users.getTotalPages()-2 : users.getNumber()+1),
                                  (users.getNumber() + 3 < users.getTotalPages() ? users.getNumber() + 3 : users.getTotalPages()))}">
-                                <a class="page-link" th:text="${i}" th:href="@{'/admin/?p=' + ${i}}"></a>
+                                <a class="page-link" th:text="${i}" th:href="@{'/auth/admin/?p=' + ${i}}"></a>
                             </li>
 
                             <li class="page-item" th:classappend="${users.getNumber()+3 >= users.getTotalPages() ? 'disabled' : ''}">
                                 <a class="page-link"
-                                   th:href="@{'/admin/?p='+ ${users.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
+                                   th:href="@{'/auth/admin/?p='+ ${users.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
                             </li>
                         </ul>
                     </nav>

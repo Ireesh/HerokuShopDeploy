@@ -21,7 +21,7 @@ public class AdminController {
     @Autowired
     StatusService statusService;
 
-    @GetMapping("/admin")
+    @GetMapping("/auth/admin")
     public String adminPage(Model model, Principal principal, @RequestParam Map<String, String> requestParams) {
         Integer pageNumber = Integer.parseInt(requestParams.getOrDefault("p", "1"));
         Page<User> users = userService.findAll(pageNumber);
@@ -31,22 +31,20 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/admin/edit/{id}")
+    @GetMapping("/auth/admin/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("statuses", statusService.findAll());
         return "admin_edit";
     }
 
-    @RequestMapping(value="/admin/edit", method = RequestMethod.POST)
+    @RequestMapping(value="/auth/admin/edit", method = RequestMethod.POST)
     public String editUser (@Validated String idStatus, Long idUser) {
-        System.out.println(idStatus);
-        System.out.println(idUser);
         User user = new User();
         user = userService.findUserById(idUser);
         user.setStatus(statusService.findStatusById(Long.valueOf(idStatus)));
         userService.updateUserStatus(user);
-        return "redirect:/admin";
+        return "redirect:/auth/admin";
     }
 
 
