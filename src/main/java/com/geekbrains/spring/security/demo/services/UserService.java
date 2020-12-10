@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.services;
 
+import com.geekbrains.spring.security.demo.entities.Bucket;
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;

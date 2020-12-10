@@ -15,5 +15,26 @@
 <div class="container mb-5">
     <div th:replace="~{navigation :: navigation(bucket)}" />
 </div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Title</td>
+        <td>Price</td>
+        <td>Amount</td>
+        <td>Sum</td>
+    </tr>
+    </thead>
+    <tbody>
+    <form th:action="@{/products}" th:object="${bucket.bucketDetails}" method="POST">
+        <tr th:each="detail : ${bucket.bucketDetails}">
+            <td th:text="${detail.getName()}"></td>
+            <td th:text="${detail.getPrice()}"></td>
+            <td th:text="${detail.getAmount()}"></td>
+            <td th:text="${detail.getSum()}"></td>
+        </tr>
+        <tr th:text="${bucket.sum}"></tr>
+    </form>
+    </tbody>
+</table>
 </body>
 </html>

@@ -50,7 +50,7 @@
                 <form th:action="@{/logout}" method="POST">
                     <a th:href="@{'/auth/profile/bucket'}" type="button" class="btn btn-secondary">
                         My bucket
-                        <span class="badge badge-warning">4</span>
+                        <span class="badge badge-warning" modelAttribute="amount" ></span>
                     </a>
                     <button id="navLogout" class="btn btn-outline-secondary" type="submit"  th:text="LOGOUT"></button>
                 </form>

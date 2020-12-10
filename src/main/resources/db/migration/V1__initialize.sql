@@ -17,7 +17,7 @@ create table products (
                           id              bigint auto_increment,
                           `name`          varchar(50) not null,
                           price           decimal not null,
-                          count           int,
+                          count           decimal,
                           primary key (id)
 );
 
@@ -77,8 +77,8 @@ drop table if exists buckets_products cascade;
 create table buckets_products (
                     bucket_id       bigint not null,
                     product_id      bigint not null,
-                    primary key (bucket_id, product_id),
-                    foreign key (bucket_id) references buckets (id)
+                    foreign key (bucket_id) references buckets (id),
+                    foreign key (product_id) references products (id)
 );
 
 -- INIT USERS
@@ -132,3 +132,13 @@ insert into products_categories (product_id, category_id) values
 (9, 4),
 (10, 4),
 (11, 4);
+
+-- INIT BUCKETS
+insert into buckets (user_id) values
+(1),
+(2);
+
+-- INIT BUCKETS_PRODUCTS
+insert into buckets_products (bucket_id, product_id) values
+(1, 1),
+(1, 1);

@@ -22,7 +22,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(name = "count")
-    private int count;
+    private double count;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "products_categories",
