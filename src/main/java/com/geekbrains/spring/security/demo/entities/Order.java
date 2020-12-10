@@ -37,11 +37,8 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "orders_conditions",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "condition_id"))
-    private Collection<Condition> conditions;
+    @Enumerated(EnumType.STRING)
+    private Condition condition;
 
 
 }

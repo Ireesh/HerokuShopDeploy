@@ -26,6 +26,6 @@ public class ProductController {
 
     @GetMapping("/products/edit")
     public String editProductForm() {
-        return "product_edit";
+        return "admin_edit_products";
     }
 }

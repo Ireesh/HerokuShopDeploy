@@ -21,17 +21,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/auth/profile/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                .antMatchers("/auth/admin/**").hasAuthority(Role.ADMIN.name())
-                .anyRequest().permitAll()
+                    .antMatchers("/auth/profile/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MANAGER.name())
+                    .antMatchers("/auth/admin/**").hasAuthority(Role.ADMIN.name())
+                    .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/auth/profile")
+                    .formLogin()
+                    .loginPage("/login")
+                    .failureUrl("/login-error")
+                    .loginProcessingUrl("/auth/profile")
+                    .successForwardUrl("/auth/profile")
                 .and()
-                .csrf().disable()
-                .logout().logoutSuccessUrl("/")
-                .permitAll();
+                    .logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .permitAll()
+                .and()
+                    .csrf().disable();
     }
 
     @Bean

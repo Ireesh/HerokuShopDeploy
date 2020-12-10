@@ -15,13 +15,13 @@
 <div class="container mb-5">
     <div th:replace="~{navigation}" />
 </div>
-    <form th:action="@{/auth/admin/edit}" method="post">
+    <form th:action="@{/auth/admin/users/edit}" method="post">
         <div class="taskList" th:object="${statuses}">
-            <select class="form-control" id="status" name="idStatus">
+            <select class="form-control" id="status" name="status">
                 <option value="">Select user status</option>
-                <option th:each="status : ${statuses}"
-                        th:value="${status.id}"
-                        th:text="${status.getName()}">
+                <option th:each="s : ${statuses}"
+                        th:value="${s}"
+                        th:text="${s}">
                 </option>
             </select>
             <input type="hidden"/>

@@ -29,10 +29,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_statuses",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "status_id"))
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToOne(mappedBy = "user")
+    private Bucket bucket;
 
 }

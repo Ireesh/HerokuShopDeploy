@@ -15,8 +15,8 @@
     <div th:replace="~{navigation :: navigation(profile)}" />
 </div>
 <div th:action="@{/authenticated/profile}" th:object="${user}">
-    <div th:switch="${user.status.getName()}">
-        <div th:case="'active'">
+    <div th:switch="${user.status.name()}">
+        <div th:case="'ACTIVE'">
             <p th:text="${user.username}"/>
             <br>
             <p th:text="${user.email}"/>
@@ -24,7 +24,7 @@
             <p th:text="${user.phone}"/>
             <br>
         </div>
-        <div th:case="'blocked'">
+        <div th:case="'BLOCKED'">
             <p>User was blocked!</p>
         </div>
     </div>

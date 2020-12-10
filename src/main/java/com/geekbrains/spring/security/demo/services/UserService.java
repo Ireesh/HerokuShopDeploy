@@ -1,5 +1,7 @@
 package com.geekbrains.spring.security.demo.services;
 
+import com.geekbrains.spring.security.demo.entities.Role;
+import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,8 @@ public class UserService implements UserDetailsService {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -39,6 +44,7 @@ public class UserService implements UserDetailsService {
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
+
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 roles);
@@ -65,7 +71,36 @@ public class UserService implements UserDetailsService {
 
     public User findUserByEmail(String email) { return userRepository.findUserByEmail(email); }
 
-    public void createNewUser(User user) {
+    @Transactional
+    public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    @Transactional
+    public boolean createNewUser(String username, String email, String password,
+                                         String confirmPassword, Long phone) {
+        if (username != null && email != null && password != null && confirmPassword != null && phone != null) {
+            if (!password.equals(confirmPassword)) {
+                return false;
+            }
+            if (phone.toString().length() != 11) {
+                return false;
+            }
+            if (findUserByEmail(email) == null) {
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(bCryptPasswordEncoder.encode(password));
+                user.setEmail(email);
+                user.setPhone(phone.toString());
+                user.setStatus(Status.ACTIVE);
+                user.setRole(Role.USER);
+                saveUser(user);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

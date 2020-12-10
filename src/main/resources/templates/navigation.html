@@ -28,8 +28,11 @@
                 <li class="nav-item" th:classappend="${activeTab == 'products' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{'/products'}" th:text="products"></a>
                 </li>
-                <li class="nav-item" th:classappend="${activeTab == 'profile' ? 'active' : ''}">
+                <li sec:authorize="hasAnyAuthority('USER')" class="nav-item" th:classappend="${activeTab == 'profile' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{'/auth/profile'}" th:text="profile"></a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item" th:classappend="${activeTab == 'users' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/auth/admin/users'}" th:text="users"></a>
                 </li>
             </ul>
             <div sec:authorize="isAnonymous()" class="nav-item">
@@ -44,9 +47,13 @@
             </form>
             </div>
             <div sec:authorize="isAuthenticated()" class="nav-item">
-            <form th:action="@{/logout}" method="POST">
-                <button id="navLogout" class="btn btn-outline-secondary" type="submit"  th:text="LOGOUT"></button>
-            </form>
+                <form th:action="@{/logout}" method="POST">
+                    <a th:href="@{'/auth/profile/bucket'}" type="button" class="btn btn-secondary">
+                        My bucket
+                        <span class="badge badge-warning">4</span>
+                    </a>
+                    <button id="navLogout" class="btn btn-outline-secondary" type="submit"  th:text="LOGOUT"></button>
+                </form>
             </div>
         </div>
     </nav>
