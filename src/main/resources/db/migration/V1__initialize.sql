@@ -81,6 +81,15 @@ create table buckets_products (
                     foreign key (product_id) references products (id)
 );
 
+-- USER SESSION PATH LOGGER
+drop table if exists user_session_path_log cascade;
+create table user_session_path_log (
+                    id                  bigint auto_increment,
+                    principal_name      varchar(100) not null,
+                    `date`              varchar(200),
+                    path                varchar(200)
+);
+
 -- INIT USERS
 insert into users (username, password, email, phone, role, status) values
 ('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@gmail.com', '999-333-34-34', 'ADMIN', 'ACTIVE'),

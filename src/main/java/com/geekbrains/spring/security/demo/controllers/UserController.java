@@ -2,8 +2,11 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.User;
+import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
 import com.geekbrains.spring.security.demo.services.UserService;
+import com.geekbrains.spring.security.demo.services.UserSessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -12,23 +15,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
 public class UserController {
+    private final UserSessionHandler userSessionHandler;
+
+    public UserController(UserSessionHandler userSessionHandler) {
+        this.userSessionHandler = userSessionHandler;
+    }
+
     @Autowired
     UserService userService;
 
+
     @GetMapping("/auth/profile")
-    public String showUserData(Model model, Principal principal) {
+    public String showUserData(Model model, Principal principal, HttpServletRequest request) {
         User user = userService.findUserByEmail(principal.getName());
         if (user.getRole().equals(Role.ADMIN)) {
+            userSessionHandler.makeSign(principal, request);
             return "redirect:/auth/admin";
         }
         if (user.getRole().equals(Role.MANAGER)) {
+            userSessionHandler.makeSign(principal, request);
             return "redirect:/products";
         }
         model.addAttribute("user", user);
+        userSessionHandler.makeSign(principal, request);
         return "profile";
     }
 
