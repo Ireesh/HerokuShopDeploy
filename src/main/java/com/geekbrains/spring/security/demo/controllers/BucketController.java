@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.controllers;
 
+import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
 import com.geekbrains.spring.security.demo.services.BucketService;
 import com.geekbrains.spring.security.demo.services.UserService;
@@ -22,11 +23,11 @@ public class BucketController {
     @Autowired
     UserSessionHandler userSessionHandler;
 
+    @LogMethod
     @GetMapping("/auth/profile/bucket")
     public String aboutBucket(Model model, Principal principal, HttpServletRequest request){
         BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
         model.addAttribute("bucket", bucketDto);
-        userSessionHandler.makeSign(principal, request);
         return "bucket";
     }
 

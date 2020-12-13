@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.controllers;
 
+import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
 import com.geekbrains.spring.security.demo.services.ProductService;
@@ -23,19 +24,19 @@ public class ProductController {
     @Autowired
     UserSessionHandler userSessionHandler;
 
+    @LogMethod
     @GetMapping("/products")
     public String showAllProducts(Model model, @RequestParam Map<String,
             String> requestParam, HttpServletRequest request, Principal principal) {
         Integer pageNumber = Integer.parseInt(requestParam.getOrDefault("p", "1"));
         Page<Product> products = productService.findAll(pageNumber);
-        userSessionHandler.makeSign(principal, request);
         model.addAttribute("products", products);
         return "/products";
     }
 
+    @LogMethod
     @GetMapping("/products/edit")
     public String editProductForm(HttpServletRequest request, Principal principal) {
-        userSessionHandler.makeSign(principal, request);
         return "admin_edit_products";
     }
 }

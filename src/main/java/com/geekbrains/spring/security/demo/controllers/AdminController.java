@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.controllers;
 
+import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.services.UserService;
@@ -22,6 +23,7 @@ public class AdminController {
     @Autowired
     UserSessionHandler userSessionHandler;
 
+    @LogMethod
     @GetMapping("/auth/admin/users")
     public String adminUsersControlPage(Model model, Principal principal, @RequestParam Map<String,
             String> requestParams, HttpServletRequest request) {
@@ -30,13 +32,12 @@ public class AdminController {
         User user = userService.findUserByEmail(principal.getName());
         model.addAttribute("users", users);
         model.addAttribute("user", user );
-        userSessionHandler.makeSign(principal, request);
         return "users";
     }
 
+    @LogMethod
     @GetMapping("/auth/admin")
     public String adminPage(HttpServletRequest request, Principal principal) {
-        userSessionHandler.makeSign(principal, request);
         return "admin";
     }
 
@@ -45,7 +46,6 @@ public class AdminController {
                                Principal principal) {
         model.addAttribute("id", id);
         model.addAttribute("statuses", Status.values());
-        userSessionHandler.makeSign(principal, request);
         return "admin_edit_users";
     }
 
@@ -58,10 +58,10 @@ public class AdminController {
         return "redirect:/auth/admin/users";
     }
 
+    @LogMethod
     @GetMapping("/auth/admin/history")
     public String historyPage(Model model, HttpServletRequest request, Principal principal) {
         model.addAttribute("history", userSessionHandler.showAllHistory());
-        userSessionHandler.makeSign(principal, request);
         return "history_user_path";
     }
 }

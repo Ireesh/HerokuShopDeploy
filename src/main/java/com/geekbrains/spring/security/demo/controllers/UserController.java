@@ -1,5 +1,6 @@
 package com.geekbrains.spring.security.demo.controllers;
 
+import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
@@ -20,29 +21,21 @@ import java.security.Principal;
 
 @Controller
 public class UserController {
-    private final UserSessionHandler userSessionHandler;
-
-    public UserController(UserSessionHandler userSessionHandler) {
-        this.userSessionHandler = userSessionHandler;
-    }
 
     @Autowired
     UserService userService;
 
-
+    @LogMethod
     @GetMapping("/auth/profile")
     public String showUserData(Model model, Principal principal, HttpServletRequest request) {
         User user = userService.findUserByEmail(principal.getName());
         if (user.getRole().equals(Role.ADMIN)) {
-            userSessionHandler.makeSign(principal, request);
             return "redirect:/auth/admin";
         }
         if (user.getRole().equals(Role.MANAGER)) {
-            userSessionHandler.makeSign(principal, request);
             return "redirect:/products";
         }
         model.addAttribute("user", user);
-        userSessionHandler.makeSign(principal, request);
         return "profile";
     }
 
