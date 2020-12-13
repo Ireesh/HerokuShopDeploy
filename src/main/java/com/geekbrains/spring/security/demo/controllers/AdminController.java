@@ -1,8 +1,10 @@
 package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.aspects.LogMethod;
+import com.geekbrains.spring.security.demo.dto.BucketDto;
 import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;
+import com.geekbrains.spring.security.demo.services.BucketService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import com.geekbrains.spring.security.demo.services.UserSessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class AdminController {
     UserService userService;
     @Autowired
     UserSessionHandler userSessionHandler;
+    @Autowired
+    BucketService bucketService;
 
     @LogMethod
     @GetMapping("/auth/admin/users")
@@ -63,5 +67,13 @@ public class AdminController {
     public String historyPage(Model model, HttpServletRequest request, Principal principal) {
         model.addAttribute("history", userSessionHandler.showAllHistory());
         return "history_user_path";
+    }
+
+    @ModelAttribute
+    public void modelAttribute(Model model, Principal principal) {
+        if (principal != null) {
+            BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
+            model.addAttribute("amount", bucketDto.getAmountProducts());
+        }
     }
 }

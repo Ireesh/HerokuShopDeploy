@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -31,4 +32,11 @@ public class BucketController {
         return "bucket";
     }
 
+    @ModelAttribute
+    public void modelAttribute(Model model, Principal principal) {
+        if (principal != null) {
+            BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
+            model.addAttribute("amount", bucketDto.getAmountProducts());
+        }
+    }
 }

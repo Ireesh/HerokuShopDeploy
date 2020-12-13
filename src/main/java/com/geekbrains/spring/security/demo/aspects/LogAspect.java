@@ -31,7 +31,6 @@ public class LogAspect {
             HttpServletRequest request = null;
             for (Object value : values) {
                 if (value != null) {
-                    System.out.println(value.getClass().getSimpleName());
                     if (value.getClass().getSimpleName().equals("UsernamePasswordAuthenticationToken")) {
                         principal = (Principal) value;
                     }

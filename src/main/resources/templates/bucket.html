@@ -32,7 +32,9 @@
             <td th:text="${detail.getAmount()}"></td>
             <td th:text="${detail.getSum()}"></td>
         </tr>
-        <tr th:text="${bucket.sum}"></tr>
+        <tr>
+            TOTAL: <p style="display:inline" th:text="${bucket.sum}"></p>
+        </tr>
     </form>
     </tbody>
 </table>

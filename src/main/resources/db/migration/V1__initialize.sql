@@ -150,4 +150,8 @@ insert into buckets (user_id) values
 -- INIT BUCKETS_PRODUCTS
 insert into buckets_products (bucket_id, product_id) values
 (1, 1),
-(1, 1);
+(1, 1),
+(2, 1),
+(2, 4),
+(2, 6),
+(2, 4);

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class BucketDto {
-    private double amountProducts;
+    private int amountProducts;
     private BigDecimal sum;
     private List<BucketDetailDto> bucketDetails = new ArrayList<>();
 
