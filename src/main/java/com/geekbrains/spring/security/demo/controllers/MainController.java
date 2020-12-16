@@ -2,11 +2,9 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
-import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
 import com.geekbrains.spring.security.demo.services.BucketService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import com.geekbrains.spring.security.demo.services.UserSessionHandler;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

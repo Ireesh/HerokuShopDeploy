@@ -2,15 +2,11 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
-import com.geekbrains.spring.security.demo.entities.Bucket;
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.User;
-import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
 import com.geekbrains.spring.security.demo.services.BucketService;
 import com.geekbrains.spring.security.demo.services.UserService;
-import com.geekbrains.spring.security.demo.services.UserSessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;

@@ -145,7 +145,8 @@ insert into products_categories (product_id, category_id) values
 -- INIT BUCKETS
 insert into buckets (user_id) values
 (1),
-(2);
+(2),
+(5);
 
 -- INIT BUCKETS_PRODUCTS
 insert into buckets_products (bucket_id, product_id) values

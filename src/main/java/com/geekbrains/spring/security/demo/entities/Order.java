@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,9 +22,9 @@ public class Order {
     @Column(name = "sum")
     private BigDecimal totalPrice;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL,
-                fetch = FetchType.LAZY, optional = false)
-    private Detail detail;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
+                fetch = FetchType.LAZY)
+    private List<Detail> details;
 
     @CreationTimestamp
     private LocalDateTime created;
@@ -32,9 +33,7 @@ public class Order {
     private LocalDateTime changed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "orders_users",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated(EnumType.STRING)

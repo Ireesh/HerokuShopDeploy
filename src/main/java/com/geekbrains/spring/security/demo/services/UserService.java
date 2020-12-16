@@ -1,6 +1,5 @@
 package com.geekbrains.spring.security.demo.services;
 
-import com.geekbrains.spring.security.demo.entities.Bucket;
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.Status;
 import com.geekbrains.spring.security.demo.entities.User;
@@ -29,11 +28,9 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BucketService bucketService;
 
     @Override
     @Transactional
@@ -96,6 +93,7 @@ public class UserService implements UserDetailsService {
                 user.setStatus(Status.ACTIVE);
                 user.setRole(Role.USER);
                 saveUser(user);
+                bucketService.createNewBucket(user);
                 return true;
             } else {
                 return false;

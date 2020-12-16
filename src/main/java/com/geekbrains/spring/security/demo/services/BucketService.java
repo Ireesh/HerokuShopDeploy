@@ -7,18 +7,13 @@ import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.repositories.BucketRepository;
 import com.geekbrains.spring.security.demo.repositories.ProductRepository;
-import com.geekbrains.spring.security.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class BucketService {
@@ -58,6 +53,11 @@ public class BucketService {
         return bucket.getProducts();
     }
 
+    public void createNewBucket(User user) {
+        Bucket bucket = new Bucket();
+        bucket.setUser(user);
+        bucketRepository.save(bucket);
+    }
 
 
 }
