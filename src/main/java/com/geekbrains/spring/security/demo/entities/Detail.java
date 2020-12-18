@@ -15,7 +15,7 @@ public class Detail {
     private Long id;
 
     @Column(name = "amount")
-    private int amount;
+    private double amount;
 
     @Column (name = "price")
     private BigDecimal price;

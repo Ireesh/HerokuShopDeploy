@@ -32,4 +32,10 @@ public class ProductService {
     public List<ProductDto> findAll() {
         return mapper.fromProductsList(productRepository.findAll());
     }
+
+    public Product findProductByName(String name) {
+        return productRepository.findProductByName(name);
+    }
+
+    public Product findProductById(Long id) { return productRepository.findProductById(id); }
 }

@@ -22,10 +22,6 @@ public class Order {
     @Column(name = "sum")
     private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
-                fetch = FetchType.LAZY)
-    private List<Detail> details;
-
     @CreationTimestamp
     private LocalDateTime created;
 

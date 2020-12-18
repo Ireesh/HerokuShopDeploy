@@ -39,17 +39,6 @@ create table products_categories (
                                      foreign key (category_id) references categories (id)
 );
 
--- DETAILS TABLE
-drop table if exists details cascade;
-create table details (
-                                id                 bigint auto_increment,
-                                product_id         bigint not null,
-                                amount             int,
-                                price              numeric(19, 2),
-                                primary key (id),
-                                foreign key (product_id) references products (id)
-);
-
 -- ORDERS TABLE
 drop table if exists orders cascade;
 create table orders (
@@ -57,10 +46,23 @@ create table orders (
                     changed                 timestamp,
                     created                 timestamp,
                     sum                     numeric(19, 2),
-                    details_id              bigint not null,
-                    condition               varchar(30),
+                    user_id                 bigint not null,
+                    `condition`             varchar(30),
                     primary key (id),
-                    foreign key (details_id) references details (id)
+                    foreign key (user_id) references users (id)
+);
+
+-- DETAILS TABLE
+drop table if exists details cascade;
+create table details (
+                         id                 bigint auto_increment,
+                         product_id         bigint not null,
+                         order_id           bigint not null,
+                         amount             decimal,
+                         price              numeric(19, 2),
+                         primary key (id),
+                         foreign key (product_id) references products (id),
+                         foreign key (order_id) references orders (id)
 );
 
 -- BUCKETS
@@ -156,3 +158,14 @@ insert into buckets_products (bucket_id, product_id) values
 (2, 4),
 (2, 6),
 (2, 4);
+
+-- INIT ORDERS
+insert into orders (sum, user_id, `condition`) values
+(14.0, 2, 'CREATED'),
+(30.5, 2, 'CREATED');
+
+-- INIT DETAILS
+insert into details (product_id, order_id, amount, price) values
+(1, 1, 2, 5.0),
+(1, 1, 2, 2.0),
+(3, 2, 1, 30.5);

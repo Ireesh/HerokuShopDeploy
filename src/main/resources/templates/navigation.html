@@ -34,6 +34,9 @@
                 <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item" th:classappend="${activeTab == 'users' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{'/auth/admin/users'}" th:text="users"></a>
                 </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${activeTab == 'orders' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/auth/orders'}" th:text="orders"></a>
+                </li>
             </ul>
             <div sec:authorize="isAnonymous()" class="nav-item">
             <form class="align-middle" th:action="@{/auth/profile}" method="POST">
