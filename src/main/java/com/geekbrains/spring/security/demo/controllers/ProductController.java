@@ -4,16 +4,14 @@ import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
-import com.geekbrains.spring.security.demo.services.BucketService;
-import com.geekbrains.spring.security.demo.services.ProductService;
-import com.geekbrains.spring.security.demo.services.UserService;
-import com.geekbrains.spring.security.demo.services.UserSessionHandler;
+import com.geekbrains.spring.security.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +38,15 @@ public class ProductController {
         Page<Product> products = productService.findAll(pageNumber);
         model.addAttribute("products", products);
         return "/products";
+    }
+
+    @GetMapping("/products/{id}/bucket")
+    public String addProductToBucket(@PathVariable Long id, Principal principal) {
+        if (principal == null) {
+            return "redirect:/products";
+        }
+        bucketService.addProductToBucket(id, principal.getName());
+        return "redirect:/products";
     }
 
     @LogMethod

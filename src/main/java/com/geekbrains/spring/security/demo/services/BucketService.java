@@ -20,10 +20,12 @@ public class BucketService {
     private BucketRepository bucketRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
     @Autowired
     UserService userService;
     @Autowired
+
+
     public void setBucketRepository(BucketRepository bucketRepository) {
         this.bucketRepository = bucketRepository;
     }
@@ -39,7 +41,7 @@ public class BucketService {
                 mapByProductId.put(product.getId(), new BucketDetailDto(product));
             }
             else {
-                detail.setAmount(detail.getAmount() + 1.0);
+                detail.setAmount(detail.getAmount() + 1);
                 detail.setSum(detail.getSum().add(detail.getPrice()));
             }
         }
@@ -56,6 +58,14 @@ public class BucketService {
     public void createNewBucket(User user) {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
+        bucketRepository.save(bucket);
+    }
+
+    public void addProductToBucket(Long productId, String email) {
+        Bucket bucket = bucketRepository.findBucketByUser(userService.findUserByEmail(email));
+        List<Product> products = bucket.getProducts();
+        products.add(productService.findProductById(productId));
+        bucket.setProducts(products);
         bucketRepository.save(bucket);
     }
 

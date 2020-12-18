@@ -16,14 +16,14 @@ public class BucketDetailDto {
     private String name;
     private Long productId;
     private BigDecimal price;
-    private Double amount;
+    private int amount;
     private BigDecimal sum;
 
     public BucketDetailDto(Product product){
         this.productId = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
-        this.amount = 1.0;
+        this.amount = 1;
         this.sum = product.getPrice();
     }
 }

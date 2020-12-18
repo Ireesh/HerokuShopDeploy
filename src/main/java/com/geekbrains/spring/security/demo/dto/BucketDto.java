@@ -14,18 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class BucketDto {
-    private Double amountProducts;
+    private int amountProducts;
     private BigDecimal sum;
     private List<BucketDetailDto> bucketDetails = new ArrayList<>();
 
     public void aggregate(){
-        this.amountProducts = bucketDetails.stream().map(BucketDetailDto::getAmount).mapToDouble(Double::doubleValue).sum();
+        this.amountProducts = bucketDetails.stream().map(BucketDetailDto::getAmount).mapToInt(Integer::intValue).sum();
         this.sum = bucketDetails.stream()
                     .map(BucketDetailDto::getSum)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
-        if (amountProducts == null) {
-            amountProducts = 0d;
-        }
         if (sum == null) {
             sum = BigDecimal.valueOf(0);
         }

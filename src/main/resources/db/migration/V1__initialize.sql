@@ -17,7 +17,7 @@ create table products (
                           id              bigint auto_increment,
                           `name`          varchar(50) not null,
                           price           decimal not null,
-                          count           decimal,
+                          count           int,
                           primary key (id)
 );
 

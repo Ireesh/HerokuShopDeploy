@@ -29,7 +29,7 @@
             <td th:text="${p.price}"></td>
             <td th:text="${p.count}"></td>
             <td>
-                <a th:href="@{'/products/edit/' + ${p.id}}">Add</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/products/{id}/bucket(id=${p.id})}">Add</a>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                 <a th:href="@{'/products/edit/' + ${p.id}}">Edit</a>
