@@ -6,9 +6,7 @@ import com.geekbrains.spring.security.demo.entities.Bucket;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.repositories.BucketRepository;
-import com.geekbrains.spring.security.demo.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,19 +16,12 @@ import java.util.Map;
 
 @Service
 public class BucketService {
-    private BucketRepository bucketRepository;
-    private SimpMessagingTemplate template;
-
     @Autowired
     ProductService productService;
     @Autowired
     UserService userService;
     @Autowired
-
-
-    public void setBucketRepository(BucketRepository bucketRepository) {
-        this.bucketRepository = bucketRepository;
-    }
+    BucketRepository bucketRepository;
 
     public BucketDto findBucketByUser(User user) {
         BucketDto bucketDto = new BucketDto();
@@ -69,8 +60,6 @@ public class BucketService {
         products.add(productService.findProductById(productId));
         bucket.setProducts(products);
         bucketRepository.save(bucket);
-        int bucketSize = bucket.getProducts().size();
-        template.convertAndSend("/topic/bucket", bucketSize);
     }
 
 
