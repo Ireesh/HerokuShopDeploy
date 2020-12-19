@@ -14,11 +14,11 @@ public class Bucket {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "buckets_products",
                 joinColumns = @JoinColumn(name = "bucket_id"),
                 inverseJoinColumns = @JoinColumn(name = "product_id"))

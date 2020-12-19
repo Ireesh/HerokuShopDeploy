@@ -2,12 +2,16 @@ package com.geekbrains.spring.security.demo.services;
 
 import com.geekbrains.spring.security.demo.dto.BucketDetailDto;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
+import com.geekbrains.spring.security.demo.dto.ProductDto;
 import com.geekbrains.spring.security.demo.entities.Bucket;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.User;
+import com.geekbrains.spring.security.demo.mappers.ProductMapper;
 import com.geekbrains.spring.security.demo.repositories.BucketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +26,12 @@ public class BucketService {
     UserService userService;
     @Autowired
     BucketRepository bucketRepository;
+    private final ProductMapper mapper = ProductMapper.MAPPER;
+    private final SimpMessagingTemplate template;
+
+    public BucketService(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     public BucketDto findBucketByUser(User user) {
         BucketDto bucketDto = new BucketDto();
@@ -48,18 +58,23 @@ public class BucketService {
         return bucket.getProducts();
     }
 
+
     public void createNewBucket(User user) {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
         bucketRepository.save(bucket);
     }
 
-    public void addProductToBucket(Long productId, String email) {
+
+    public void addProductToBucket(ProductDto productDto, String email) {
         Bucket bucket = bucketRepository.findBucketByUser(userService.findUserByEmail(email));
         List<Product> products = bucket.getProducts();
-        products.add(productService.findProductById(productId));
+        products.add(mapper.toProduct(productDto));
         bucket.setProducts(products);
         bucketRepository.save(bucket);
+
+        template.convertAndSend("/topic/auth/profile/bucket",
+                productDto);
     }
 
 

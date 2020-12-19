@@ -4,6 +4,7 @@ import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
+import com.geekbrains.spring.security.demo.mappers.ProductMapper;
 import com.geekbrains.spring.security.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ public class ProductController {
     BucketService bucketService;
     @Autowired
     UserService userService;
+    private final ProductMapper mapper = ProductMapper.MAPPER;
 
     @LogMethod
     @GetMapping("/products")
@@ -45,7 +47,8 @@ public class ProductController {
         if (principal == null) {
             return "redirect:/products";
         }
-        bucketService.addProductToBucket(id, principal.getName());
+
+        bucketService.addProductToBucket(mapper.fromProduct(productService.findProductById(id)), principal.getName());
         return "redirect:/products";
     }
 
