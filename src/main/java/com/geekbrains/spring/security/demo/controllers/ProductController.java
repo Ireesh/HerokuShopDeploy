@@ -47,7 +47,6 @@ public class ProductController {
         if (principal == null) {
             return "redirect:/products";
         }
-
         bucketService.addProductToBucket(mapper.fromProduct(productService.findProductById(id)), principal.getName());
         return "redirect:/products";
     }
