@@ -58,24 +58,36 @@ public class BucketService {
         return bucket.getProducts();
     }
 
-
+    @Transactional
     public void createNewBucket(User user) {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
         bucketRepository.save(bucket);
     }
 
-
+    @Transactional
     public void addProductToBucket(ProductDto productDto, String email) {
+        Product product = mapper.toProduct(productDto);
         Bucket bucket = bucketRepository.findBucketByUser(userService.findUserByEmail(email));
         List<Product> products = bucket.getProducts();
-        products.add(mapper.toProduct(productDto));
+        boolean isNew = true;
+        for (Product p : products) {
+            if (p.getName().equals(product.getName())) {
+                products.add(p);
+                isNew =false;
+                break;
+            }
+        }
+        if (isNew) {
+            products.add(product);
+        }
         bucket.setProducts(products);
         bucketRepository.save(bucket);
 
         template.convertAndSend("/topic/auth/profile/bucket",
                 productDto);
     }
+
 
 
 }

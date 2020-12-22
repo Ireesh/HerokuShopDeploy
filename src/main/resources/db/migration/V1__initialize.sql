@@ -110,7 +110,7 @@ insert into users (username, password, email, phone, role, status) values
 
 -- INIT PRODUCTS
 insert into products (`name`, price, count) values
-('bread', 7.0, 11),
+('bread', 7.04, 11),
 ('cheese', 70.0, 20),
 ('orange', 25.4, 10),
 ('potato', 15.3, 45),

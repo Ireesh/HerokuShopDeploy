@@ -21,7 +21,7 @@
     <div th:replace="~{navigation :: navigation(products)}" />
 </div>
 <div class="container">
-<table class="table table-striped">
+<table class="table table-striped" id="products-table">
     <thead>
     <tr>
         <td>Title</td>
@@ -30,13 +30,13 @@
     </tr>
     </thead>
     <tbody>
-    <form th:action="@{/products}" th:object="${products}" method="POST" id="products-form">
+    <form th:object="${products}" id="products-form">
         <tr th:each="p : ${products}">
-            <td th:text="${p.name}"></td>
-            <td th:text="${p.price}"></td>
-            <td th:text="${p.count}"></td>
+            <td class="name" th:text="${p.name}"></td>
+            <td class="price" th:text="${p.price}"></td>
+            <td class="count" th:text="${p.count}"></td>
             <td>
-                <a sec:authorize="isAuthenticated()" id="addToBucket" th:href="@{/products/{id}/bucket(id=${p.id})}">Add</a>
+                <button sec:authorize="isAuthenticated()" onclick="sendContent()" name="addProductButton" type="submit">Add</button>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                 <a th:href="@{'/products/edit/' + ${p.id}}">Edit</a>

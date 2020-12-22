@@ -18,7 +18,7 @@ public class Bucket {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "buckets_products",
                 joinColumns = @JoinColumn(name = "bucket_id"),
                 inverseJoinColumns = @JoinColumn(name = "product_id"))
