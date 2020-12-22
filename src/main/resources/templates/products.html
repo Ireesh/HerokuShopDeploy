@@ -36,7 +36,7 @@
             <td class="price" th:text="${p.price}"></td>
             <td class="count" th:text="${p.count}"></td>
             <td>
-                <button sec:authorize="isAuthenticated()" onclick="sendContent()" name="addProductButton" type="submit">Add</button>
+                <input sec:authorize="isAuthenticated()" onclick="sendContent()" name="addProductButton" type="button" value="add"></input>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                 <a th:href="@{'/products/edit/' + ${p.id}}">Edit</a>

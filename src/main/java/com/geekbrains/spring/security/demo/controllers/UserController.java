@@ -2,11 +2,15 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
+import com.geekbrains.spring.security.demo.dto.ProductDto;
 import com.geekbrains.spring.security.demo.entities.Role;
 import com.geekbrains.spring.security.demo.entities.User;
 import com.geekbrains.spring.security.demo.services.BucketService;
 import com.geekbrains.spring.security.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -58,5 +62,10 @@ public class UserController {
             BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
             model.addAttribute("amount", bucketDto.getAmountProducts());
         }
+    }
+
+    @MessageMapping("/auth/profile")
+    public void messageAddProductToBucket(Model model, Principal principal) {
+        modelAttribute(model, principal);
     }
 }

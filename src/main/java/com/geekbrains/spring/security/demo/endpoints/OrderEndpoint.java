@@ -21,17 +21,17 @@ public class OrderEndpoint {
         this.orderService = orderService;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URL, localPart = "getProductsRequest")
+    @PayloadRoot(namespace = NAMESPACE_URL, localPart = "getOrderRequest")
     @ResponsePayload
     public GetOrderResponse getOrder(String userName)
             throws DatatypeConfigurationException {
         GetOrderResponse response = new GetOrderResponse();
         orderService.findAllOrdersByUser(userName)
-                .forEach(order -> response.getOrder().add(createProductWS(order)));
+                .forEach(order -> response.getOrder().add(createOrderWS(order)));
         return response;
     }
 
-    private OrderWS createProductWS(Order order){
+    private OrderWS createOrderWS(Order order){
         OrderWS ws = new OrderWS();
         ws.setId(order.getId());
         ws.setTotalPrice(String.valueOf(order.getTotalPrice()));

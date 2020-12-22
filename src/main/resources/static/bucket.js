@@ -14,6 +14,7 @@ function sendContent() {
     var name = row.cells[0].innerText;
     var price = row.cells[1].innerText;
     var count = row.cells[2].innerText;
+    increaseBadgeAmount();
     stomp.send("/app/auth/profile/bucket", {}, JSON.stringify({
         'name': name,
         'price': price,
@@ -30,6 +31,11 @@ function connect() {
             renderItem(bucket);
         });
     });
+}
+
+function increaseBadgeAmount() {
+    var badge = parseInt(document.getElementById("badge").innerText)+1;
+    document.getElementById("badge").innerText = badge;
 }
 
 function renderItem(productJson) {
@@ -57,4 +63,6 @@ function renderItem(productJson) {
                 "</tr>");
         }
 
+        var badge = parseInt(document.getElementById("badge").innerText)+1;
+        document.getElementById("badge").innerText = badge;
 }

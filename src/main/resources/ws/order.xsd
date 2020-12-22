@@ -21,7 +21,7 @@
     <xs:complexType name="orderWS">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
-            <xs:element name="totalPrice" type="xs:double"/>
+            <xs:element name="totalPrice" type="xs:string"/>
             <xs:element name="condition" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
