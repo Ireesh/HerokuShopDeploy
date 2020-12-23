@@ -74,6 +74,7 @@ public class AdminController {
         if (principal != null) {
             BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
             model.addAttribute("amount", bucketDto.getAmountProducts());
+            model.addAttribute("totalPrice", bucketDto.getSum());
         }
     }
 }

@@ -2,12 +2,14 @@ package com.geekbrains.spring.security.demo.controllers;
 
 import com.geekbrains.spring.security.demo.aspects.LogMethod;
 import com.geekbrains.spring.security.demo.dto.BucketDto;
+import com.geekbrains.spring.security.demo.dto.ProductDto;
 import com.geekbrains.spring.security.demo.entities.Product;
 import com.geekbrains.spring.security.demo.entities.UserSessionPathLog;
 import com.geekbrains.spring.security.demo.mappers.ProductMapper;
 import com.geekbrains.spring.security.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +64,12 @@ public class ProductController {
         if (principal != null) {
             BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
             model.addAttribute("amount", bucketDto.getAmountProducts());
+            model.addAttribute("totalPrice", bucketDto.getSum());
         }
+    }
+
+    @MessageMapping("/products")
+    public void messageAddProductToBucket(String msg) {
+        System.out.println(msg);
     }
 }

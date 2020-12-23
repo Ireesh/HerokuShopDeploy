@@ -21,7 +21,11 @@ import java.security.Principal;
 
 @Controller
 public class BucketController {
+    private MainController mainController;
 
+    public BucketController(MainController mainController) {
+        this.mainController = mainController;
+    }
     @Autowired
     BucketService bucketService;
     @Autowired
@@ -42,6 +46,7 @@ public class BucketController {
         if (principal != null) {
             BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
             model.addAttribute("amount", bucketDto.getAmountProducts());
+            model.addAttribute("totalPrice", bucketDto.getSum());
         }
     }
 

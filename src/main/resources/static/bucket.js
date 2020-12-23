@@ -1,8 +1,8 @@
-var stomp = null;
+var stomp = null;;
 
 // подключаемся к серверу по окончании загрузки страницы
 window.onload = function() {
-    connect();
+    connectToBucketPage();
 };
 
 // отправка сообщения на сервер
@@ -14,15 +14,16 @@ function sendContent() {
     var name = row.cells[0].innerText;
     var price = row.cells[1].innerText;
     var count = row.cells[2].innerText;
-    increaseBadgeAmount();
+    increaseBadgeAmount(price);
     stomp.send("/app/auth/profile/bucket", {}, JSON.stringify({
         'name': name,
         'price': price,
         'count': count
     }));
+    stomp.send("/app/products", {}, "1");
 }
 
-function connect() {
+function connectToBucketPage() {
     var socket = new SockJS('/socket');
     stomp = Stomp.over(socket);
     stomp.connect({}, function (frame) {
@@ -33,9 +34,12 @@ function connect() {
     });
 }
 
-function increaseBadgeAmount() {
-    var badge = parseInt(document.getElementById("badge").innerText)+1;
-    document.getElementById("badge").innerText = badge;
+function increaseBadgeAmount(price) {
+    var badgeParts = document.getElementById("badge").innerText.split(":");
+    var badgeAmount = parseInt(badgeParts[0]) + 1;
+    badgeParts = badgeParts[1].split(" ");
+    var badgeTotalPrice = parseFloat(badgeParts[1]) + parseFloat(price);
+    document.getElementById("badge").innerText = badgeAmount + ": " + badgeTotalPrice.toFixed(2) + " руб";
 }
 
 function renderItem(productJson) {
@@ -55,7 +59,7 @@ function renderItem(productJson) {
             }
         }
         if (isNew === true) {
-            $("#bucket-table").append("<tr>" +
+            $("#bucket-table").append("<tr class='rower'>" +
                 "<td>" +product.name +"</td>" +
                 "<td>" +product.price.toFixed(2) +"</td>" +
                 "<td>" + 1 + "</td>" +
@@ -63,6 +67,7 @@ function renderItem(productJson) {
                 "</tr>");
         }
 
-        var badge = parseInt(document.getElementById("badge").innerText)+1;
-        document.getElementById("badge").innerText = badge;
+        var badgeParts = document.getElementById("badge").innerText.split(":");
+        var badgeAmount = parseInt(badgeParts[0]) + 1;
+        document.getElementById("badge").innerText = badgeAmount + ": " + new_num + " руб";
 }

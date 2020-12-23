@@ -49,18 +49,18 @@
     <ul class="pagination">
         <li class="page-item" th:classappend="${products.isFirst() ? 'disabled' : ''}">
             <a class="page-link"
-               th:href="@{'/products/?p='+ ${products.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
+               th:href="@{'/products?p='+ ${products.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
         </li>
 
         <li class="page-item" th:classappend="${products.getNumber() + 1 == i ? 'active' : ''}"
             th:each="i : ${#numbers.sequence((products.getNumber()+3 >= products.getTotalPages() ? products.getTotalPages()-2 : products.getNumber()+1),
                                  (products.getNumber() + 3 < products.getTotalPages() ? products.getNumber() + 3 : products.getTotalPages()))}">
-            <a class="page-link" th:text="${i}" th:href="@{'/products/?p=' + ${i}}"></a>
+            <a class="page-link" th:text="${i}" th:href="@{'/products?p=' + ${i}}"></a>
         </li>
 
         <li class="page-item" th:classappend="${products.getNumber()+3 >= products.getTotalPages() ? 'disabled' : ''}">
             <a class="page-link"
-               th:href="@{'/products/?p='+ ${products.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
+               th:href="@{'/products?p='+ ${products.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
         </li>
     </ul>
 </nav>

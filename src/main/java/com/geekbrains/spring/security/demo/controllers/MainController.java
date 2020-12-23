@@ -9,6 +9,7 @@ import com.geekbrains.spring.security.demo.services.UserSessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,8 @@ public class MainController {
         if (principal != null) {
             BucketDto bucketDto = bucketService.findBucketByUser(userService.findUserByEmail(principal.getName()));
             model.addAttribute("amount", bucketDto.getAmountProducts());
+            model.addAttribute("totalPrice", bucketDto.getSum());
         }
     }
+
 }
