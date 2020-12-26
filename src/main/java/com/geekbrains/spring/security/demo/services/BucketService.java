@@ -88,6 +88,8 @@ public class BucketService {
                 productDto);
     }
 
-
+    public void cleanBucket(User user) {
+        user.getBucket().getProducts().clear();
+    }
 
 }
